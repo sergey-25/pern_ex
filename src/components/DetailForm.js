@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {Button, Grid, TextField} from "@mui/material";
+import {Button, Grid, IconButton, TextField} from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import api from "../api/api";
+import {useParams} from "react-router-dom";
 
 const initialValues = [{
     fullname: '',
@@ -16,18 +19,19 @@ const initialValues = [{
 
 
 function DetailForm(props) {
+    const {id} = useParams();
 
-    const[values, setValues] = useState([...initialValues])
+    const [values, setValues] = useState([...initialValues])
 
-    // const [fullname, setFullName] = useState("");
-    // const [color, setColor] = useState("");
-    // const [characteristics, setCharacteristics] = useState("");
-    // const [term, setTerm] = useState("");
-    // const [size, setSize] = useState("");
-    // const [amount, , setAmount] = useState("");
-    // const [link, setLink] = useState("");
-    // const [ordercomment, setOrderComment] = useState("");
-    // const [orderrecipient, setOrderRecipient] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [color, setColor] = useState("");
+    const [characteristics, setCharacteristics] = useState("");
+    const [term, setTerm] = useState("");
+    const [size, setSize] = useState("");
+    const [amount, , setAmount] = useState("");
+    const [link, setLink] = useState("");
+    const [orderComment, setOrderComment] = useState("");
+    const [orderRecipient, setOrderRecipient] = useState("");
 
 
     const addFormFields = () => {
@@ -43,97 +47,131 @@ function DetailForm(props) {
         formValues[index][event.target.name] = event.target.value;
         setValues(formValues);
     }
+    const seveVal = () => {
+        setValues(values)
+        console.log(values)
+    }
 
+    const handleSubmitDetails = async (e) => {
+        e.preventDefault()
+        const newDetail = {
+            full_name: fullName,
+            color
+        }
+        try {
+            const response = await api.post(`/${id}/addDetail`, newDetail);
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
         <div>
+            <Button onClick={seveVal}>save</Button>
             <form>
 
-                {values.map((value, index) =>{
-                    return(
-                        <>
+                {/*{values.map((value, index) =>{*/}
+                {/*    return(*/}
+                {/*        <>*/}
 
-                            <Grid key={index} container spacing={2} direction="column">
-                                <Grid item><p>{index +1}</p></Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.fullname}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Name'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.color}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Address'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.characteristics}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Recipient'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.term}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
+                <Grid container spacing={2} direction="column">
+                    <Grid item><p></p></Grid>
+                    <Grid item>
+                        <TextField
+                            name='full_name'
+                            value={fullName}
+                            onChange={e => {
+                                setFullName(e.target.value);
+                            }}
+                            label='Name'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="color"
+                            value={color}
+                            onChange={e => {
+                                setColor(e.target.value);
+                            }}
+                            label='Address'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="characteristics"
+                            value={characteristics}
+                            // onChange={event => handleChange(index, event)}
+                            label='Recipient'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="term"
+                            value={term}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
 
 
-                                <Grid item>
-                                    <TextField
-                                        value={value.size}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.amount}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.link}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.ordercomment}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField
-                                        value={value.orderrecipient}
-                                        onChange={event => handleChange(index, event)}
-                                        label='Comment'
-                                        variant="standard"/>
-                                </Grid>
+                    <Grid item>
+                        <TextField
+                            name="size"
+                            value={size}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="amount"
+                            value={amount}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="link"
+                            value={link}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="ordercomment"
+                            value={orderComment}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="orderrecipient"
+                            value={orderRecipient}
+                            // onChange={event => handleChange(index, event)}
+                            label='Comment'
+                            variant="standard"/>
+                    </Grid>
 
-                            </Grid>
-                            {
-                                index >= 0 ?
-                                    <button type="button" className="button remove"
-                                            onClick={() => removeFormFields(index)}>Remove</button>
-                                    : null
-                            }
-                        </>
-                    )
-                })}
+                </Grid>
+                {/*{*/}
+                {/*    index >= 0 ?*/}
+                {/*        <IconButton color="error"*/}
+                {/*                onClick={() => removeFormFields(index)}>*/}
+                {/*            <DeleteForeverIcon/>*/}
+                {/*        </IconButton>*/}
+                {/*        : null*/}
+                {/*}*/}
+                {/*</>*/}
+                {/*    )*/}
+                {/*})}*/}
 
 
             </form>
-            <Button  type="button" onClick={() => addFormFields()}>+</Button>
+            <Button type="button" onClick={handleSubmitDetails}>
+                Додати
+            </Button>
         </div>
     );
 }

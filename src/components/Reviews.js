@@ -1,20 +1,32 @@
-import React from 'react';
-import {Card, Typography} from "@mui/material";
+import React from "react";
+// import StarRating from "./StarRating";
 
-import StarsRating from "./StarsRating";
-
-function Reviews(props) {
+const Reviews = ({ details }) => {
     return (
-        <div>
-            <Card>
-                <Typography>sfdsf</Typography>
-                <div><StarsRating rating={2}/></div>
-                <div>
-                    <p>fsfadsgagasdgdsd</p>
-                </div>
-            </Card>
+        <div className="row row-cols-3 mb-2">
+            <p>dasdasasasdsdas</p>
+            {details.map((review) => {
+                return (
+                    <div
+                        key={review.id}
+                        className="card text-white bg-primary mb-3 mr-4"
+                        style={{ maxWidth: "30%" }}
+                    >
+                        <div className="card-header d-flex justify-content-between">
+                            <span>{review.name}</span>
+                            <span>
+                {/*<StarRating rating={review.rating} />*/}
+              </span>
+                        </div>
+                        <div className="card-body">
+                            <p className="card-text">{review.review}</p>
+                        </div>
+                    </div>
+                );
+            })}
+
         </div>
     );
-}
+};
 
-export default Reviews;
+export default Reviews

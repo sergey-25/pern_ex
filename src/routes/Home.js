@@ -4,7 +4,7 @@ import OrderForm from "../components/OrderForm";
 import OrderList from "../components/OrderList";
 import {Button, Dialog} from "@mui/material";
 
-function Home(props) {
+function Home() {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleDialogOpen = ()=>{
@@ -13,16 +13,17 @@ function Home(props) {
     const handleDialogClose = ()=>{
         setIsOpen(false)
     }
+
+
     return (
         <div>
             <Header/>
             <Dialog
                 fullScreen
                 open={isOpen}>
-                <OrderForm  setIsOpen={setIsOpen}/>
+                <OrderForm setIsOpen={setIsOpen}/>
             </Dialog>
             <Button onClick={handleDialogOpen}>add</Button>
-
             <OrderList/>
         </div>
     );

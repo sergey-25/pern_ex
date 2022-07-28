@@ -17,7 +17,8 @@ function OrderDetail(props) {
         const fetchData = async () => {
             try {
                 const response = await api.get(`/${id}`)
-                setSelectOrder(response.data.data.orders)
+                setSelectOrder(response.data.data)
+                console.log(response)
             } catch (error) {
                 console.log(error)
             }
@@ -28,7 +29,7 @@ function OrderDetail(props) {
     return <div> {selectOrder && (
         <>
             <div>
-                <Reviews/>
+                <Reviews details={selectOrder.details}/>
             </div>
             <div>
                 <AddReview/>

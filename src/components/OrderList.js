@@ -1,15 +1,16 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import api from '../api/api'
 import {Button, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {OrderContext} from "../context/OrderContext";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 
 
-function OrderList(props) {
+
+function OrderList() {
 
     const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ function OrderList(props) {
             try {
                 const response = await api.get("/")
                 setOrders(response.data.data.orders)
-                console.log(response.data.data)
+                console.log(response.data)
             } catch (error) {
                 console.log(error.message)
             }
@@ -28,29 +29,34 @@ function OrderList(props) {
         fetchData();
     }, []);
 
+
+
+    const showApplication = (id) => {
+        navigate(`/orders/${id}/view`)
+    }
     const handleEdit = (id) => {
-        navigate(`/orders/${id}/edit`)
+        navigate(`/orders/${id}`)
     }
 
     const handleDelete = async (id) => {
         try {
             const response = await api.delete(`/${id}`)
-            setOrders(orders.filter((order) => order.order_id !== id));
+            setOrders(orders.filter((order) => order.id !== id));
             console.log(response)
-            // setOrders(orders.filter(order =>{
-            //     return order.order_id !== id
-            // }))
+
         } catch (error) {
             console.log(error)
         }
     };
 
+
     const handleOrderSelect = (id)=>{
-        navigate(`/orders/${id}`)
+        navigate(`/orders/${id}/detail`)
     }
 
     return (
         <div>
+
             <table>
                 <thead>
                 <tr>
@@ -59,6 +65,7 @@ function OrderList(props) {
                     <th>Recipient</th>
                     <th>Comment</th>
                     <th>Actions</th>
+                    <th>Color</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,14 +76,16 @@ function OrderList(props) {
                             <td>{order.address}</td>
                             <td>{order.recipient}</td>
                             <td>{order.comment}</td>
+                            <td>{order.color}</td>
                             <td>
-                                <IconButton color="primary" onClick={() => handleOrderSelect(order.order_id)}>
+                                <Button onClick={()=>handleOrderSelect(order.id)}>fff</Button>
+                                <IconButton color="primary" onClick={() => showApplication(order.id)}>
                                     <RemoveRedEyeIcon/>
                                 </IconButton>
-                                <IconButton color="primary" onClick={() => handleEdit(order.order_id)}>
+                                <IconButton color="primary" onClick={() => handleEdit(order.id)}>
                                     <EditIcon/>
                                 </IconButton>
-                                <IconButton color="error" onClick={() => handleDelete(order.order_id)}>
+                                <IconButton color="error" onClick={() => handleDelete(order.id)}>
                                     <DeleteForeverIcon/>
                                 </IconButton>
                             </td>
